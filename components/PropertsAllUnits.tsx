@@ -1,6 +1,15 @@
 import UnitCard from "./UnitCard";
+import { BsArrowRightCircleFill } from 'react-icons/bs'
+import UnitNamePriceComponent from "./UnitNamePriceComponent";
 
-const PropertyAllUnits: React.FC<any> = () => {
+interface Props {
+    units: any;
+    setUnits: any;
+}
+
+
+const PropertyAllUnits: React.FC<Props> = ({ units, setUnits }) => {
+
     return (
         <div className="py-5 w-2/3">
             <div className="">
@@ -8,12 +17,22 @@ const PropertyAllUnits: React.FC<any> = () => {
 
                 <div className="flex flex-1 flex-row">
                     <div className="flex flex-col flex-1 mr-2 ">
-                        <UnitCard active />
-                        <UnitCard />
-                        <UnitCard />
+                        {
+                            [...Array(units)].map((e, i) => (
+                                <UnitCard key={i} />
+                            ))
+                        }
                     </div>
-                    <div className="flex flex-1">
-                        <h1>2</h1>
+                    {/* Unit details */}
+                    <div className="flex flex-1 px-3 border-l-2 border-black flex-col">
+                        
+                        <UnitNamePriceComponent />
+                        
+
+                        <div className="cursor-pointer flex self-end">
+                            <BsArrowRightCircleFill size={33} />
+                        </div>
+
                     </div>
                 </div>
 

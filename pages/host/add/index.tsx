@@ -2,12 +2,18 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { IoIosArrowBack } from 'react-icons/io'
 import Link from "next/link";
 import { useState } from "react";
-import {  PropertyAllUnits, PropertyTypeSection, PropertyUnitsNumber } from "../../../components";
+import {  PropertyAllUnits, PropertyBathroom, PropertyCharge, PropertyLocation, PropertyPowerCharge, PropertyRooms, PropertyTypeSection, PropertyUnitsNumber } from "../../../components";
+import PropertyMapPin from "../../../components/PropertyMapPin";
 
 const AddProperty: React.FC<any> = () => {
     const [ completed, setCompleted ] = useState<number>(5);
 
-    const [ unitsActive,setUnitsActive ] = useState<boolean>(true);
+    const [ unitsActive,setUnitsActive ] = useState<boolean>(false);
+
+    const [ units, setUnits ] = useState<any>(2);
+
+    const [ unitInfo, setUnitInfo ] = useState<any>([]);
+
 
     const moveOn = () => {
         setCompleted(completed + 10);
@@ -25,8 +31,14 @@ const AddProperty: React.FC<any> = () => {
 
             <div className={`flex flex-1 ${unitsActive ? "mt-20" : "items-center"} justify-center`}>
                 {/* <PropertyTypeSection /> */}
-                {/* <PropertyUnitsNumber /> */}
-                <PropertyAllUnits />
+                {/* <PropertyUnitsNumber units={units} setUnits={setUnits} /> */}
+                {/* <PropertyCharge /> */}
+                {/* <PropertyRooms /> */}
+                {/* <PropertyBathroom /> */}
+                {/* <PropertyPowerCharge /> */}
+                {/* <PropertyLocation /> */}
+                <PropertyMapPin />
+                {/* <PropertyAllUnits units={units} setUnits={setUnits} /> */}
             </div>
             
                 <div className="flex w-1/2 self-center items-center justify-between">
