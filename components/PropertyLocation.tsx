@@ -1,7 +1,15 @@
 
 import { ImLocation } from 'react-icons/im'
+import { IoIosArrowBack } from 'react-icons/io'
+import Link from "next/link";
 
-const PropertyLocation: React.FC<any> = () => {
+
+interface Props {
+    moveOn: any;
+    routeName: string;
+}
+
+const PropertyLocation: React.FC<Props> = ({ moveOn, routeName }) => {
     
     return (
         <div className='w-1/2'>
@@ -60,6 +68,20 @@ const PropertyLocation: React.FC<any> = () => {
             </div>
                 
 
+            </div>
+
+            <div className="flex flex-1 w-full flex-row items-center justify-between">
+                <Link href="/host">
+                    <div className="flex flex-row items-center cursor-pointer">
+                        <IoIosArrowBack size={20} />
+                        <h2 className="text-lg mx-3">Back</h2>
+                    </div>
+                </Link>
+                
+                <div onClick={() => moveOn(routeName)} className="flex flex-row items-center cursor-pointer bg-black text-white px-5 py-2 rounded-md">
+                    <h2 className="text-lg mx-3">Next</h2>
+                </div>
+                        
             </div>
         </div>
     )

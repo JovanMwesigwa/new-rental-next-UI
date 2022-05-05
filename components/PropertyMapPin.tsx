@@ -1,13 +1,21 @@
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { IoIosArrowBack } from 'react-icons/io'
+import Link from "next/link";
+
+
+interface Props {
+    moveOn: any;
+    routeName: string;
+}
+
 
 const Map = ReactMapboxGl({
     accessToken:
-    'pk.eyJ1Ijoiam9veHZ5IiwiYSI6ImNrYTBjcHkzcTBmM3IzZnJ0M3B3enpwb20ifQ.ld6Rcnl2NHbxXUCg0nopbw'
+    'pk.eyJ1Ijoiam9veHZ5IiwiYSI6ImNrYTBjcHkzcTBmM3IzZnJ0M3B3enpwb20ifQ.ld6Rcnl2NHbxXUCg0nopbw',
   });
 
-
-const PropertyMapPin: React.FC<any> = () => {
+const PropertyMapPin: React.FC<Props> = ({ moveOn, routeName }) => {
 
     return (
         <div className='w-1/2'>
@@ -31,6 +39,20 @@ const PropertyMapPin: React.FC<any> = () => {
             </div>
                 
 
+            </div>
+
+            <div className="flex flex-1 w-full flex-row items-center justify-between">
+                <Link href="/host">
+                    <div className="flex flex-row items-center cursor-pointer">
+                        <IoIosArrowBack size={20} />
+                        <h2 className="text-lg mx-3">Back</h2>
+                    </div>
+                </Link>
+                
+                <div onClick={() => moveOn(routeName)} className="flex flex-row items-center cursor-pointer bg-black text-white px-5 py-2 rounded-md">
+                    <h2 className="text-lg mx-3">Next</h2>
+                </div>
+                        
             </div>
         </div>
     )

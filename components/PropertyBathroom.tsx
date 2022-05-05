@@ -4,10 +4,17 @@ import { useState } from 'react';
 import { BsPlusLg, BsFileMinus } from 'react-icons/bs'
 import { VscChromeClose } from 'react-icons/vsc'
 import { GiCheckMark} from 'react-icons/gi'
+import { IoIosArrowBack } from 'react-icons/io'
+import Link from "next/link";
 
 
+interface Props {
+    moveOn: any;
+    routeName: string;
+}
 
-const PropertyBathroom: React.FC<any> = () => {
+
+const PropertyBathroom: React.FC<Props> = ({ moveOn, routeName }) => {
     const [ bathroomIndoor, setBathRoomIndoor ] = useState<string | null>(null)
     return (
         <div className='w-1/2'>
@@ -31,6 +38,20 @@ const PropertyBathroom: React.FC<any> = () => {
             </div>
                 
 
+            </div>
+
+            <div className="flex flex-1 w-full flex-row items-center justify-between">
+                <Link href="/host">
+                    <div className="flex flex-row items-center cursor-pointer">
+                        <IoIosArrowBack size={20} />
+                        <h2 className="text-lg mx-3">Back</h2>
+                    </div>
+                </Link>
+                
+                <div onClick={() => moveOn(routeName)} className="flex flex-row items-center cursor-pointer bg-black text-white px-5 py-2 rounded-md">
+                    <h2 className="text-lg mx-3">Next</h2>
+                </div>
+                        
             </div>
         </div>
     )
