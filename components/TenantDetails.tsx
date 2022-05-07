@@ -2,7 +2,7 @@ import Image from "next/image";
 import { AnalysisProps, UserProps } from "../types";
 
 interface Props {
-    selectedUser: UserProps
+    selectedUser: UserProps | any;
 }
 
 const TenantDetails: React.FC<Props> = ({ selectedUser }) => {
