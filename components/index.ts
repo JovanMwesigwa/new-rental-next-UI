@@ -31,3 +31,5 @@ export { default as PropertyToiletImagesUpload } from  './PropertyToiletImagesUp
 export { default as PropertyEnviromentImagesUpload } from  './PropertyEnviromentImagesUpload';
 export { default as PropertyAddDescription } from  './PropertyAddDescription';
 export { default as PropertyAddTitle } from  './PropertyAddTitle';
+export { default as NavbarComponent } from  './NavbarComponent';
+export { default as WorkTabComponent } from  './WorkTabComponent';
