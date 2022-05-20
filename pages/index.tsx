@@ -19,7 +19,7 @@ import "swiper/css/autoplay";
 import "swiper/css/zoom";
 import "swiper/css/lazy";
 import "swiper/css/free-mode";
-
+import axios from "axios";
 import { NavbarComponent, WorkTabComponent } from "../components/";
 import Image from "next/image";
 
@@ -33,6 +33,10 @@ import { GoLocation } from "react-icons/go";
 import { useEffect, useState } from "react";
 import { BsBuilding, BsCalendarDate } from "react-icons/bs";
 import { BiGlobeAlt } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { APIURL } from "../APIRoute/APIRoute";
+import { useQuery } from "react-query";
+import { fetchingUserSuccess } from "../features/user/userSlice";
 
 const FIRST = ["Manage", "Find"];
 const SECOND = [" tenants", " hostels", " apartments"];
@@ -40,6 +44,26 @@ const SECOND = [" tenants", " hostels", " apartments"];
 const Home: NextPage = () => {
   const [index, setIndex] = useState<any>(0);
   const [secondIndex, setSecondIndex] = useState<any>(0);
+
+  const token = useSelector((state: any) => state.token.token);
+  const currentUser = useSelector((state: any) => state.user);
+
+  const dispatch = useDispatch();
+
+  const fetchUser = async () => {
+    try {
+      const result = await axios.get(`${APIURL}/profile/me/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+      return await result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const user = useQuery("fetchUser", fetchUser);
 
   useEffect(() => {
     const intervalId = setInterval(
@@ -50,8 +74,12 @@ const Home: NextPage = () => {
       3000 // every 3 seconds
     );
 
+    if (user.data?.data || !currentUser?.user) {
+      dispatch(fetchingUserSuccess(user?.data?.data));
+    }
+
     return () => clearTimeout(intervalId);
-  }, []);
+  }, [token, user.data?.data, currentUser?.user]);
 
   return (
     <div className="relative">
@@ -155,14 +183,14 @@ const Home: NextPage = () => {
         <WorkTabComponent />
 
         <section>
-          <div className="w-full flex flex-col p-8 h-72 my-10">
+          <div className="w-full flex flex-col p-8">
             <h3 className="text-2xl w-2/3 font-medium mb-5">
               Get the house you need, when and where you need it so you can
               focus on managing other stuff
             </h3>
 
             <div className="flex flex-1 my-10 flex-row">
-              <div className="flex-1 flex-colflex py-8">
+              <div className="flex-1 flex-col flex py-8">
                 <BsBuilding size={55} color="#605e5e" />
                 <div className="flex flex-1 flex-col my-8">
                   <h1 className="text-lg">Places that are close to town</h1>
@@ -172,7 +200,7 @@ const Home: NextPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex-1 flex-colflex py-8 px-4">
+              <div className="flex-1 flex-col flex py-8 px-4">
                 <BsCalendarDate size={55} color="#605e5e" />
                 <div className="flex flex-1 flex-col my-8">
                   <h1 className="text-lg">Rent period durations</h1>
@@ -182,7 +210,7 @@ const Home: NextPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex-1 flex-colflex py-8">
+              <div className="flex-1 flex-col flex py-8">
                 <BiGlobeAlt size={55} color="#605e5e" />
                 <div className="flex flex-1 flex-col my-8">
                   <h1 className="text-lg">Fully flexible</h1>
@@ -194,6 +222,26 @@ const Home: NextPage = () => {
             </div>
           </div>
         </section>
+
+        <section>
+          <div className="w-full flex flex-row p-8 items-center mb-8 justify-center">
+            <div className="flex flex-1 rounded-md overflow-hidden relative  h-96 ">
+              <Image src={hostel2} layout="fill" />
+            </div>
+            <div className="flex flex-1 flex-col p-4">
+              <h1 className="text-2xl font-semibold ">
+                One affordable chain of rental management tools
+              </h1>
+              <p className="text-lg font-light my-5">
+                Linking to More Destinations. More Ease. More Affordable.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div className="w-full h-72 bg-slate-800"></div>
+        </footer>
       </main>
     </div>
   );

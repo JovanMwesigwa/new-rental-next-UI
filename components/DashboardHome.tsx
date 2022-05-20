@@ -4,6 +4,7 @@ import CardComponent from "./CardComponent";
 import TenantDetails from "./TenantDetails";
 import { BsPlusLg } from "react-icons/bs";
 import { UserProps } from "../types";
+import { useSelector } from "react-redux";
 
 interface Props {
   activeCard: string | null;
@@ -20,6 +21,10 @@ const DashboardHome: React.FC<Props> = ({
   selectUser,
   selectedUser,
 }) => {
+  const currentUser = useSelector((state: any) => state.user);
+
+  // console.log("TEST DEBUG =======================", currentUser);
+
   return (
     <div className="flex flex-1 flex-col p-5 ml-20">
       {/* Top header */}
@@ -32,7 +37,7 @@ const DashboardHome: React.FC<Props> = ({
         </Link>
 
         <div className="flex flex-row items-center">
-          <h3 className="mr-4">Sekkamatte John</h3>
+          <h3 className="mr-4">{currentUser?.user?.user?.username}</h3>
           <div className="h-10 w-10 rounded-full bg-gray-400"></div>
         </div>
       </div>
