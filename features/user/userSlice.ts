@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { stat } from 'fs';
 
 // Define a type for the slice state
 interface userState {

@@ -19,7 +19,7 @@ export default [
         picture: image1,
         analysis: [
             {
-                id: 1,
+                id: 1, 
                 month: "Jan",
                 percentage: 45,
                 bills: [
