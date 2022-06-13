@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { APIURL } from "../APIRoute/APIRoute";
+import {
+  removeProperty,
+  setProperty,
+} from "../features/editingProperty/editingPropertySlice";
 
 interface Props {
   moveOn: any;
@@ -14,11 +18,7 @@ interface Props {
 const PropertyAmenities: React.FC<Props> = ({ moveOn, routeName }) => {
   const [ammenities, setAmmenities] = useState<string[]>([]);
 
-  const [wifiSelected, setWifiSelected] = useState<boolean>(false);
-  const [heatSelected, setHeatSelected] = useState<boolean>(false);
-  const [closetSelected, setClosetSelected] = useState<boolean>(false);
-  const [fireSelected, setFireSelected] = useState<boolean>(false);
-  const [smokeSelected, setSmokeSelected] = useState<boolean>(false);
+  const [selected, setSelected] = useState<any>([]);
 
   const { property } = useSelector((state: any) => state.editingProperty);
   const { token } = useSelector((state: any) => state.token);
@@ -27,22 +27,66 @@ const PropertyAmenities: React.FC<Props> = ({ moveOn, routeName }) => {
 
   useEffect(() => {
     getAmmenities();
-  }, []);
+  }, [selected]);
 
   const getAmmenities = async () => {
     try {
       const result = await axios
         .get(`${APIURL}/property/ammenities/`)
         .then(res => {
-          console.log("TEST DBUG HERE 2===================", res.data);
-
-          setAmmenities(res.data);
+          setAmmenities(res.data.results);
         })
         .catch((err: any) => {
           console.log(err);
         });
     } catch (err: any) {
       console.log(err.message);
+    }
+  };
+
+  const selectAmmenity = (selectedAmmenity: any) => {
+    const isSelected = selected.some((item: any) => {
+      return item.id === selectedAmmenity.id;
+    });
+    // see if its already selected
+    if (isSelected) {
+      // remove it from the array
+      const removed = selected.filter((item: any) => {
+        return item.id !== selectedAmmenity.id;
+      });
+      // set the state
+      setSelected(removed);
+    } else {
+      // add it to the array
+      setSelected((prevState: any) => [...prevState, selectedAmmenity]);
+    }
+  };
+
+  const checkIfSelected = (item: any) => {
+    return selected.some((selectedItem: any) => selectedItem.id === item.id);
+  };
+
+  const setPropertyAmmenities = async () => {
+    const data = {
+      ammenities: selected,
+    };
+    try {
+      const res = await axios
+        .post(`${APIURL}/property/add_ammenities/${property.id}/`, data, {
+          headers: {
+            Authorization: "Token " + token,
+          },
+        })
+        .then(res => {
+          dispatch(removeProperty());
+          dispatch(setProperty(res.data));
+          moveOn(routeName);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } catch (error: any) {
+      console.log(error.message);
     }
   };
 
@@ -60,51 +104,19 @@ const PropertyAmenities: React.FC<Props> = ({ moveOn, routeName }) => {
 
         <div className="flex flex-1 flex-row my-10">
           <div className="flex flex-1 flex-row  flex-wrap">
-            <button
-              onClick={() => setWifiSelected(!wifiSelected)}
-              className={`border-2 m-2 flex flex-row relative ${
-                wifiSelected ? "bg-black text-white" : "border-black"
-              } mr-3 px-4 p-2 rounded-full`}
-            >
-              <h1 className="mr-1">Wifi</h1>
-              {wifiSelected && <AiOutlineClose size={10} />}
-            </button>
-            <button
-              onClick={() => setHeatSelected(!heatSelected)}
-              className={`border-2 m-2 flex flex-row ${
-                heatSelected ? "bg-black text-white" : "border-black"
-              } ml-3 px-4 p-2 rounded-full`}
-            >
-              <h1 className="mr-1">Heat</h1>
-              {heatSelected && <AiOutlineClose size={10} />}
-            </button>
-            <button
-              onClick={() => setClosetSelected(!closetSelected)}
-              className={`border-2 m-2 flex flex-row ${
-                closetSelected ? "bg-black text-white" : "border-black"
-              } ml-3 px-4 p-2 rounded-full`}
-            >
-              <h1 className="mr-1">Closet drawers</h1>
-              {closetSelected && <AiOutlineClose size={10} />}
-            </button>
-            <button
-              onClick={() => setFireSelected(!fireSelected)}
-              className={`border-2 m-2 flex flex-row ${
-                fireSelected ? "bg-black text-white" : "border-black"
-              } ml-3 px-4 p-2 rounded-full`}
-            >
-              <h1 className="mr-1">Fire extinguisher</h1>
-              {fireSelected && <AiOutlineClose size={10} />}
-            </button>
-            <button
-              onClick={() => setSmokeSelected(!smokeSelected)}
-              className={`border-2 m-2 flex flex-row ${
-                smokeSelected ? "bg-black text-white" : "border-black"
-              } ml-3 px-4 p-2 rounded-full`}
-            >
-              <h1 className="mr-1">Smoke detector</h1>
-              {smokeSelected && <AiOutlineClose size={10} />}
-            </button>
+            {ammenities.map((item: any) => (
+              <>
+                <button
+                  onClick={() => selectAmmenity(item)}
+                  className={`border-2 m-2 flex flex-row relative ${
+                    checkIfSelected(item) && "bg-black text-white"
+                  } mr-3 px-4 p-2 rounded-full`}
+                >
+                  <h1 className="mr-1">{item.name}</h1>
+                  {checkIfSelected(item) && <AiOutlineClose size={10} />}
+                </button>
+              </>
+            ))}
           </div>
         </div>
         {/* <p className='bg-black text-white p-2 text-xs rounded-sm w-1/2'>Tenants pay for their own power using YAKA</p> */}
@@ -119,7 +131,8 @@ const PropertyAmenities: React.FC<Props> = ({ moveOn, routeName }) => {
         </Link>
 
         <div
-          onClick={() => moveOn(routeName)}
+          onClick={setPropertyAmmenities}
+          // onClick={() => moveOn(routeName)}
           className="flex flex-row items-center cursor-pointer bg-black text-white px-5 py-2 rounded-md"
         >
           <h2 className="text-lg mx-3">Next</h2>

@@ -33,7 +33,7 @@ const PropertyBathroom: React.FC<Props> = ({ moveOn, routeName }) => {
       const res = await axios
         .put(`${APIURL}/property/update/${property.id}/`, data, {
           headers: {
-            Authorization: "Token " + localStorage.getItem("token") || token,
+            Authorization: "Token " + token,
           },
         })
         .then(res => {

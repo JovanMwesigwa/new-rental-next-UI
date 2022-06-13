@@ -5,12 +5,14 @@ import { persistReducer } from 'redux-persist'
 import thunk from 'redux-thunk'
 import tokenReducer from './features/token/tokenSlice'
 import userReducer from './features/user/userSlice'
+import adminPropertyReducer from './features/adminProperty/adminPropertySlice'
 import editingPropertyReducer from './features/editingProperty/editingPropertySlice'
 
 const reducers = combineReducers({
     token: tokenReducer, 
     user: userReducer,    
-    editingProperty: editingPropertyReducer,      
+    editingProperty: editingPropertyReducer,  
+    adminProperty: adminPropertyReducer,    
    });
 
    const persistConfig = {

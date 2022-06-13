@@ -4,7 +4,10 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { APIURL } from "../APIRoute/APIRoute";
-import { setProperty } from "../features/editingProperty/editingPropertySlice";
+import {
+  removeProperty,
+  setProperty,
+} from "../features/editingProperty/editingPropertySlice";
 
 interface Props {
   moveOn?: any;
@@ -15,6 +18,8 @@ const PropertyTypeSection: React.FC<Props> = ({ moveOn, routeName }) => {
   const [propertyType, setPropertyType] = useState<string>("Rentals");
 
   const [error, setError] = useState<string>("");
+
+  const { token } = useSelector((state: any) => state.token);
 
   const dispatch = useDispatch();
 
@@ -30,11 +35,11 @@ const PropertyTypeSection: React.FC<Props> = ({ moveOn, routeName }) => {
       const res = await axios
         .post(`${APIURL}/property/create/`, data, {
           headers: {
-            Authorization: "Token " + localStorage.getItem("token"),
+            Authorization: "Token " + token,
           },
         })
         .then(res => {
-          console.log("DEBUG HERE ===========", res.data);
+          dispatch(removeProperty());
           dispatch(setProperty(res.data));
           moveOn(routeName);
         })
