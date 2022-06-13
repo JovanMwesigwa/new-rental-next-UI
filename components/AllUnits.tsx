@@ -9,8 +9,6 @@ interface Props {
 }
 
 const AllUnits: React.FC<Props> = ({ properties, setSelectedUnit }) => {
-  console.log("DEBUG DashboardUnits", properties);
-
   return (
     <div className="bg-white py-6 flex flex-1 mr-2 rounded-md flex-col">
       <h2 className="text-lg px-6 font-medium">Units</h2>

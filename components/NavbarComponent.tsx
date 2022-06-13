@@ -18,10 +18,12 @@ const NavbarComponent: React.FC<any> = () => {
       <div className="flex flex-1 flex-row ">
         <div className="flex flex-1 flex-row items-center cursor-pointer">
           <BiSearchAlt size={30} />
-          <div className="px-3">
-            <h1 className="font-normal text-sm leading-3">Find Omies</h1>
-            <h1 className="text-xs  font-light">Find clean hostels</h1>
-          </div>
+          <Link href="/find">
+            <div className="px-3">
+              <h1 className="font-normal text-sm leading-3">Find Omies</h1>
+              <h1 className="text-xs  font-light">Find clean hostels</h1>
+            </div>
+          </Link>
         </div>
       </div>
       {/* tab 1 */}
