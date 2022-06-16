@@ -38,3 +38,4 @@ export { default as FindLeftSidebarComponent } from  './FindLeftSidebarComponent
 export { default as PropertyCardComponent } from  './PropertyCardComponent';
 export { default as LoadingImagesComponent } from './LoadingImagesComponent'
 export { default as PropertyImagesGridComponent } from './PropertyImagesGridComponent';
+export { default as PayCardSummaryComponent } from './PayCardSummaryComponent'

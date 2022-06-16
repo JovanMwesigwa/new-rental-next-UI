@@ -10,7 +10,7 @@ const FindLeftSidebarComponent: React.FC<Props> = ({
   setPriceValue,
 }) => {
   return (
-    <div className="flex flex-col h-full w-1/4 p-8 border-r-[0.4px] border-gray-200 fixed top-24 left-0 z-10 bg-white">
+    <div className=" hidden lg:flex flex-col h-full w-1/4 p-8 border-r-[0.4px] border-gray-200 fixed top-24 left-0 z-10 bg-white">
       <h1 className="text-3xl font-bold leading-9 text-[#3f3e3e]">Filters</h1>
       <h3 className="text-base font-bold text-[#3f3e3e]">
         Popular locations in kampala

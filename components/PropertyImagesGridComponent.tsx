@@ -1,21 +1,13 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Autoplay,
-  Zoom,
-  Lazy,
-  FreeMode,
-} from "swiper";
+import { Autoplay, Zoom, Lazy, FreeMode } from "swiper";
 
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/zoom";
 import "swiper/css/lazy";
 import "swiper/css/free-mode";
+import LoadingImagesComponent from "./LoadingImagesComponent";
 
 interface Props {
   frontImages: any;
@@ -26,9 +18,10 @@ const PropertyImagesGridComponent: React.FC<Props> = ({
   frontImages,
   otherImages,
 }) => {
-  // console.log("DBUG HERE ---------------", frontImages);
+  // console.log("DBUG HERE ---------------", frontImages, otherImages);
+  if (!frontImages || !otherImages) return <LoadingImagesComponent />;
   return (
-    <div className="flex flex-row w-1/2 h-full bg-gray-200">
+    <div className="flex flex-row w-full md:w-1/2 h-full bg-gray-200">
       <Swiper
         spaceBetween={15}
         slidesPerView="auto"
@@ -47,17 +40,17 @@ const PropertyImagesGridComponent: React.FC<Props> = ({
         freeMode
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        className="flex flex-col w-full h-full bg-gray-100 cursor-pointer hover:bg-gray-50 relative overflow-hidden rounded-sm"
+        className="flex flex-col w-full md:w-full h-full bg-gray-100 cursor-pointer hover:bg-gray-50 relative overflow-hidden rounded-sm"
       >
         {frontImages.map((item: any) => (
           <SwiperSlide key={item.id}>
-            <div className="h-full w-full relative rounded-md overflow-hidden ml-2 bg-gray-100">
+            <div className="h-full w-full relative rounded-md overflow-hidden bg-gray-100">
               <Image src={item.image} layout="fill" />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="flex flex-col w-36 border-l-4  border-white h-full bg-gray-200">
+      <div className="flex flex-col w-1/2 md:w-36 border-l-4  border-white h-full bg-gray-200">
         {/* narrow right container */}
         {otherImages.map((item: any) => (
           <div

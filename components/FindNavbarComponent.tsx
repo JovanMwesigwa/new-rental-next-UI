@@ -6,7 +6,7 @@ const FindNavbarComponent: React.FC<any> = () => {
   const currentUser = useSelector((state: any) => state.user);
 
   return (
-    <nav className="h-24 w-full  flex flex-row items-center px-8 fixed top-0 bg-white z-20 shadow-md">
+    <nav className=" hidden h-24 w-full  md:flex flex-row items-center px-8 fixed top-0 bg-white z-20 shadow-md">
       <div className="flex flex-col">
         <h1 className="text-4xl text-red-600 leading-2 font-bold">omie</h1>
         <h1 className="text-xs  text-red-600 font-light">cribs & homes</h1>
